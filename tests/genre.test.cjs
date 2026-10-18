@@ -29,3 +29,8 @@ test("plain novels fall back to Fiction; nothing known gives an empty list", () 
   assert.deepEqual(Genre.classify(["Novels"]), ["Fiction"]);
   assert.deepEqual(Genre.classify(["Accessible book", "Protected DAISY"]), []);
 });
+
+test("a memoir about someone's children is not tagged Children's", () => {
+  assert.ok(!Genre.classify(["Children of polygamous parents", "Biography"]).includes("Children's"));
+  assert.deepEqual(Genre.classify(["Juvenile fiction"]), ["Children's"]);
+});

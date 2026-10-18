@@ -30,5 +30,5 @@ node build.mjs && NODE_PATH=$(npm root -g) node tests/e2e.mjs   # browser walk-t
 - Added U7 genre rules, U8 lookup service, `genre` on Book, genre field with suggestions in the add/edit form, genre on table cards and book detail, genre filter chips on the shelf.
 - `vercel.json` builds with `node build.mjs` and serves `public/` plus `api/lookup.js`. `npm run dev` runs a local stand-in (`tests/serve.mjs`).
 - Tests: 22/22 unit tests (core, genre rules, lookup service with faked Open Library / Google Books, HTTP handler). Browser walk-through 15/15 steps against the local file **and** against the hosted build with the lookup service (upstream sites faked, because this build machine can't reach Open Library).
-- Not yet verified: the live Vercel deployment against the real Open Library and Google Books.
+- Live check on https://bookshelf-tracker-1x3f.vercel.app (2026-10-18): page loads; real lookups returned cover + genre for Piranesi (Fantasy), Dune (Science Fiction), Gone Girl (Mystery, Thriller), Educated (Biography & Memoir). Educated also got a stray "Children's" from a subject about the author's family; the Children's rule was tightened.
 - Claude Artifact republished (version 2) with the genre field and filter; its lookup still can't reach the catalogues.
