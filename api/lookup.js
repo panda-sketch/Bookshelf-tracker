@@ -10,7 +10,8 @@ module.exports = async (req, res) => {
   try {
     const result = await lookup({ title, author }, { apiKey: process.env.GOOGLE_BOOKS_API_KEY });
     if (result.status === "bad-request") return res.status(400).json(result);
-    if (result.status === "found" || result.status === "no-match")
+    // Cache only complete answers, so a catalogue that was down gets asked again next time.
+    if ((result.status === "found" || result.status === "no-match") && !result.unavailable)
       res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=604800");
     return res.status(200).json(result);
   } catch (e) {
