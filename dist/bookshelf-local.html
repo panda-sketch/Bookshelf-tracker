@@ -1295,6 +1295,8 @@ const Covers = (() => {
     } else {
       $("coverHint").textContent = "Found the book, but no cover image. It will get a designed cover." + (r.genre ? " Genre filled in." : "") + also;
     }
+    if (r.unavailable === "googleBooks" && (!r.cover || !r.genre))
+      $("coverHint").textContent += " Google Books isn't answering right now, so try again later for the missing details.";
     renderCoverPreview();
   });
 
