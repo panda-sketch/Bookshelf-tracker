@@ -69,3 +69,10 @@ test("no-match says when Google Books was not answering", async () => {
   const r = await lookup({ title: "Unknown book" }, { fetchImpl: fakeFetch("gb-down-none") });
   assert.deepEqual(r, { status: "no-match", unavailable: "googleBooks" });
 });
+
+test("a loosely related book from the general search is never returned", async () => {
+  const r = await lookup({ title: "The Hong Kong Widow" }, { fetchImpl: fakeFetch("ol-title-miss") });
+  assert.equal(r.title, "The Hong Kong Widow");
+  const none = await lookup({ title: "Hong Kong Nights" }, { fetchImpl: fakeFetch("ol-title-miss") });
+  assert.equal(none.status, "no-match");
+});

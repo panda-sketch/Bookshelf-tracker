@@ -23,7 +23,8 @@ function fakeFetch(mode = "ok") {
       if (mode === "ol-title-miss") {
         // Like a newer book: the title field finds nothing, the general search does.
         if (u.includes("title=")) return jsonRes({ docs: [] });
-        return jsonRes({ docs: [{ title: "The Hong Kong Widow", author_name: ["Kristen Loesch"], isbn: ["9780593548011"],
+        return jsonRes({ docs: [{ title: "The Wishing Trees", author_name: ["John Shors"], cover_i: 1, subject: ["Fiction"] },
+          { title: "The Hong Kong Widow", author_name: ["Kristen Loesch"], isbn: ["9780593548011"],
           subject: ["Historical fiction", "Hong Kong (China)", "Fiction"] }] });
       }
       return jsonRes({ docs: [
