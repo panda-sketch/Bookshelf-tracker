@@ -32,3 +32,9 @@ node build.mjs && NODE_PATH=$(npm root -g) node tests/e2e.mjs   # browser walk-t
 - Tests: 22/22 unit tests (core, genre rules, lookup service with faked Open Library / Google Books, HTTP handler). Browser walk-through 15/15 steps against the local file **and** against the hosted build with the lookup service (upstream sites faked, because this build machine can't reach Open Library).
 - Live check on https://bookshelf-tracker-1x3f.vercel.app (2026-10-18): page loads; real lookups returned cover + genre for Piranesi (Fantasy), Dune (Science Fiction), Gone Girl (Mystery, Thriller), Educated (Biography & Memoir). Educated also got a stray "Children's" from a subject about the author's family; the Children's rule was tightened.
 - Claude Artifact republished (version 2) with the genre field and filter; its lookup still can't reach the catalogues.
+
+## Fix (2026-10-18): "The Hong Kong Widow" found nothing
+- Causes: Open Library's title search doesn't index it under that title (it lists "Hong Kong Widow"), and Google Books' shared, keyless daily quota was used up ("Quota exceeded … Queries per day").
+- Changes: Open Library search widens from title to general search; only titles sharing ≥75% of the wanted words are accepted (a first attempt returned "The Wishing Trees"); ISBN cover fallback; lookups aren't cached while a catalogue is down; the page says when Google Books isn't answering.
+- Live result now: title, author and pages found; cover and genre still missing until Google Books answers. Needs a free `GOOGLE_BOOKS_API_KEY` in Vercel.
+- Tests: 26/26 unit, 15/15 browser steps.
