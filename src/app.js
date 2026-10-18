@@ -424,7 +424,9 @@
       return;
     }
     if (r.status === "no-match") {
-      $("coverHint").textContent = "No match for that title. Check the spelling, or upload an image and type the genre.";
+      $("coverHint").textContent = r.unavailable === "googleBooks"
+        ? "Open Library has no match, and Google Books isn't answering right now. Try again later, or upload an image and type the genre."
+        : "No match for that title. Check the spelling, or upload an image and type the genre.";
       return;
     }
     if (!$("fAuthor").value.trim() && r.author) $("fAuthor").value = r.author;

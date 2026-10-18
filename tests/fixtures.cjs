@@ -19,7 +19,13 @@ function fakeFetch(mode = "ok") {
     if (mode === "down") throw new Error("network down");
     if (u.startsWith("https://openlibrary.org/search.json")) {
       if (mode === "ol-down") throw new Error("ol down");
-      if (mode === "none") return jsonRes({ docs: [] });
+      if (mode === "none" || mode === "gb-down-none") return jsonRes({ docs: [] });
+      if (mode === "ol-title-miss") {
+        // Like a newer book: the title field finds nothing, the general search does.
+        if (u.includes("title=")) return jsonRes({ docs: [] });
+        return jsonRes({ docs: [{ title: "The Hong Kong Widow", author_name: ["Kristen Loesch"], isbn: ["9780593548011"],
+          subject: ["Historical fiction", "Hong Kong (China)", "Fiction"] }] });
+      }
       return jsonRes({ docs: [
         { title: "Piranesi (Large print)", author_name: ["Someone Else"], subject: ["Large type books"] },
         { title: "Piranesi", author_name: ["Susanna Clarke"], cover_i: 10594763, number_of_pages_median: 272,
@@ -28,6 +34,7 @@ function fakeFetch(mode = "ok") {
     }
     if (u.startsWith("https://www.googleapis.com/books/v1/volumes")) {
       if (mode === "none") return jsonRes({ totalItems: 0 });
+      if (mode === "gb-down-none" || mode === "ol-title-miss") return jsonRes({ error: { message: "Quota exceeded" } }, 429);
       return jsonRes({ items: [{ volumeInfo: { title: "Piranesi", authors: ["Susanna Clarke"], pageCount: 245,
         categories: ["Fiction / Fantasy / Contemporary"], imageLinks: { thumbnail: "http://books.google.com/books/content?id=x&zoom=1&edge=curl" } } }] });
     }

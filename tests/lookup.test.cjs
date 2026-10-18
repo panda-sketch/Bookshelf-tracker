@@ -53,3 +53,19 @@ test("the HTTP handler answers 400 without a title and 405 for POST", async () =
   await handler({ method: "POST", query: {} }, b);
   assert.equal(b.code, 405);
 });
+
+test("a book Open Library only finds by general search still comes back, with an ISBN cover", async () => {
+  const f = fakeFetch("ol-title-miss");
+  const r = await lookup({ title: "The Hong Kong widow" }, { fetchImpl: f });
+  assert.equal(r.status, "found");
+  assert.equal(r.author, "Kristen Loesch");
+  assert.equal(r.genre, "Historical Fiction");
+  assert.ok(r.cover);
+  assert.ok(f.calls.some((u) => u.includes("/b/isbn/9780593548011")));
+  assert.equal(r.unavailable, "googleBooks");
+});
+
+test("no-match says when Google Books was not answering", async () => {
+  const r = await lookup({ title: "Unknown book" }, { fetchImpl: fakeFetch("gb-down-none") });
+  assert.deepEqual(r, { status: "no-match", unavailable: "googleBooks" });
+});
