@@ -1,0 +1,109 @@
+<title>Bookshelf Tracker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,600;1,400&family=Gloock&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/*STYLES*/
+</style>
+
+<div class="room">
+  <header class="room-head">
+    <div>
+      <h1>Bookshelf</h1>
+      <p class="tally" id="tally">Opening your shelf…</p>
+    </div>
+    <button class="btn primary" id="addBtn" type="button">Add a book</button>
+  </header>
+
+  <p class="examples-note" id="examplesNote" hidden>These are example books so you can see how it works. They disappear when you add your first book.</p>
+
+  <section aria-labelledby="shelfHead">
+    <div class="section-head"><h2 id="shelfHead">The shelf</h2><span>Finished</span></div>
+    <div class="genre-filter" id="genreFilter" role="group" aria-label="Show shelf books by genre" hidden></div>
+    <div class="bookcase">
+      <ol class="shelf" id="shelf" aria-label="Finished books"></ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="tableHead">
+    <div class="section-head"><h2 id="tableHead">On the table</h2><span>Reading now</span></div>
+    <div class="tabletop">
+      <ul class="table-list" id="table" aria-label="Books I'm reading"></ul>
+    </div>
+  </section>
+
+  <p class="hint" id="whereSaved"></p>
+</div>
+
+<dialog id="editDialog" aria-labelledby="editTitle">
+  <form class="dlg" id="editForm" novalidate>
+    <div class="dlg-head">
+      <h2 id="editTitle">Add a book</h2>
+      <button class="close" type="button" data-close aria-label="Close">×</button>
+    </div>
+    <div class="field">
+      <label for="fTitle">Title</label>
+      <input type="text" id="fTitle" name="title" autocomplete="off" required>
+      <p class="error" id="fTitleError" hidden></p>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="fAuthor">Author</label>
+        <input type="text" id="fAuthor" name="author" autocomplete="off">
+      </div>
+      <div class="field" style="flex: 0 1 130px">
+        <label for="fPages">Pages</label>
+        <input type="number" id="fPages" name="pages" min="1" inputmode="numeric">
+      </div>
+    </div>
+    <p class="error" id="fPagesError" hidden></p>
+    <div class="field">
+      <label for="fGenre">Genre</label>
+      <input type="text" id="fGenre" name="genre" list="genreOptions" autocomplete="off" maxlength="40" placeholder="e.g. Fantasy">
+      <datalist id="genreOptions"></datalist>
+    </div>
+    <div class="field">
+      <span class="label">Cover</span>
+      <div class="cover-picker">
+        <div id="fCoverPreview"></div>
+        <div class="cover-tools">
+          <div class="actions">
+            <button class="btn" type="button" id="findCoverBtn">Look up cover and genre</button>
+            <span class="btn file-btn">Upload image<input type="file" id="fCoverFile" accept="image/*" aria-label="Upload a cover image"></span>
+            <button class="btn quiet" type="button" id="clearCoverBtn" hidden>Use a designed cover</button>
+          </div>
+          <p class="hint" id="coverHint">Looks up the title and author on Open Library and Google Books. Without a cover image, the book gets a designed cover.</p>
+        </div>
+      </div>
+    </div>
+    <label class="check" id="finishedRow"><input type="checkbox" id="fFinished"> I've already finished it (put it straight on the shelf)</label>
+    <div class="actions">
+      <span class="spacer"></span>
+      <button class="btn quiet" type="button" data-close>Cancel</button>
+      <button class="btn primary" type="submit" id="saveBookBtn">Put it on the table</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="bookDialog" aria-labelledby="bookTitle">
+  <div class="dlg" id="bookBody"></div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+/*GENRE*/
+</script>
+<script>
+/*CORE*/
+</script>
+<script>
+/*STORE*/
+</script>
+<script>
+/*COVERS*/
+</script>
+<script>
+/*APP*/
+</script>
